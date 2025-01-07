@@ -1,64 +1,89 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:model="clr-namespace:People.Models"
+             xmlns:viewModels="clr-namespace:People.ViewModel"
              x:Class="People.MainPage" 
              BackgroundColor="Black">
+    <ContentPage.BindingContext>
+        <viewModels:PersonViewModel/>
+    </ContentPage.BindingContext>
     
-    <Grid Padding="5" RowSpacing="5" ColumnSpacing="5"
+    <VerticalStackLayout>
+
+        <Frame WidthRequest="300" Margin="20" BorderColor="#1C1C1E" BackgroundColor="#1C1C1E">
+            <HorizontalStackLayout>
+                <Frame HeightRequest="60" WidthRequest="60" BorderColor="Transparent" BackgroundColor="Transparent">
+                    <Image Source="https://i.pinimg.com/236x/05/49/86/05498664d54894f92c6523c50c1eb9e6.jpg"
+                           HeightRequest="60"
+                           WidthRequest="60"
+                           HorizontalOptions="StartAndExpand"/>
+                </Frame>
+                <Frame HeightRequest="58" BorderColor="Transparent" BackgroundColor="Transparent">
+                    <HorizontalStackLayout>
+                        <Label Text="Emilio Guerrero" TextColor="White"/>
+                        <Frame WidthRequest="10" BackgroundColor="Transparent" BorderColor="Transparent"/>
+                        <Label Text="19 años" TextColor="White"/>
+                    </HorizontalStackLayout>
+                    
+                </Frame>
+            </HorizontalStackLayout>
+            
+               
+        </Frame>
+   
+
+        <Grid Padding="5" RowSpacing="5" ColumnSpacing="5"
           RowDefinitions="Auto,Auto,Auto,Auto,*">
 
-        <Entry x:Name="newPerson"
+        <Entry x:Name="newPersonEmilioGuerrero"
            Placeholder="Ingresa el Nombre"
                BackgroundColor="#1C1C1E"
-               TextColor="White"/>
+               TextColor="White"
+               Text="{Binding Name}"/>
 
         <Button Text="Añadir Persona"
             Grid.Row="1"
-            Clicked="OnNewButtonClicked"
             BackgroundColor="#1C1C1E"
-            TextColor="Aquamarine"/>
+            TextColor="Aquamarine"
+            Command="{Binding GuardarCommand}"/>
 
-        <Label x:Name="statusMessage"
+        <Label x:Name="statusMessageEmilioGuerrero"
            TextColor="Aquamarine"
-           Grid.Row="2" />
+           Grid.Row="2"
+           Text="{Binding StatusMessage}"/>
 
         <Button Text="Mostrar Toda la Lista"
             Grid.Row="3"
-            Clicked="OnGetButtonClicked"
             BackgroundColor="#1C1C1E"
-            TextColor="Aquamarine"/>
+            TextColor="Aquamarine"
+            Command="{Binding CargarPeopleCommand}"/>
 
-        <CollectionView x:Name="peopleList" Grid.Row="4">
+            <CollectionView x:Name="peopleList" Grid.Row="4" ItemsSource="{Binding PeopleList}" SelectionChangedCommand="{Binding EliminarPeopleCommand}" SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}" SelectionMode="Single">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:Person">
+                <DataTemplate>
                     <StackLayout Padding="5.5">
-                    <Frame  BackgroundColor="#1C1C1E" BorderColor="#1C1C1E">
+                        <Frame  BackgroundColor="#1C1C1E" BorderColor="#1C1C1E">
 
-                        <HorizontalStackLayout>
-                            <Label Text="{Binding Id}" 
+                            <HorizontalStackLayout>
+                                <Label Text="{Binding Id}" 
                                    TextColor="Red"
                                    HorizontalOptions="Center"
                                    FontAttributes="Bold"
                                    VerticalOptions="Center"/>
-                            <Label Text=".-"
+                                <Label Text=".-"
                                    TextColor="White"
                                    VerticalOptions="Center"/>
-                            <Label Grid.Column="1" 
+                                <Label Grid.Column="1" 
                                    Text="{Binding Name}" 
                                    TextColor="White"
                                    FontAttributes="Bold"
                                    VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
+                            </HorizontalStackLayout>
+                        </Frame>
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <StackLayout Grid.Row="5">
-            <Label Text="hola"
-                   TextColor="White"/>
-        </StackLayout>
     </Grid>
-
+    </VerticalStackLayout>
 </ContentPage>
