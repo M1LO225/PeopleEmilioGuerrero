@@ -20,7 +20,7 @@ public class PersonRepository
         _dbPath = dbPath;                        
     }
 
-    public void AddNewPerson(string name)
+    public void AddNewPerson(string name) 
     {            
         int result = 0;
         try
